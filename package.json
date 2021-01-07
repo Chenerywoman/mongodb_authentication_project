@@ -1,0 +1,25 @@
+{
+  "name": "mongodb_authentication_project",
+  "version": "1.0.0",
+  "description": "This was a CodeNation project to practise creating & accessing MongoDB collections with Node.js, hash passwords and authenticate users using tokens and cookies.   The backend used the Express web framework for Node.js.  The The frontend used the Handlebars templating language.",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "hbs": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.10",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
