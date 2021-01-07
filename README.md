@@ -17,7 +17,7 @@ The project brief was to create a website with various elements:
     - an all blogs page
     - a page showing all the blogs of the logged in user
 
-## Authentication
+### Authentication
 
 The authentication features to include:
 * no user id in the url 
@@ -76,14 +76,14 @@ The page of blogs for an individual user should:
 * enable the blog post to be edited
 * allow the user to delete the blog post
 
-## Admin account-all users page
+### Admin account-all users page
 
 If admin user is logged in, they can:
 * access a page showing all users of in the collection
 * update a user
 * delete a user
 
-# Admin account - all blogs page
+### Admin account - all blogs page
 
 If admin user is logged in, they can:
 * access the page showing all blogs
@@ -110,6 +110,6 @@ The dependencies for the project are:
 
 ## Final stage: styling and responsiveness
 
-Once the functionality was working, I used a helpful website (https://coolors.co/) to help me come up with a colour scheme for the webpage.  
+<!-- Once the functionality was working, I used a helpful website (https://coolors.co/) to help me come up with a colour scheme for the webpage.  
 
-I then worked on styling the website and making it responsive to different screen sizes, using media queries where required.
+I then worked on styling the website and making it responsive to different screen sizes, using media queries where required. -->
