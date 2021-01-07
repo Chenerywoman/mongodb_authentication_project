@@ -14,9 +14,15 @@
         <input required type="text" name="userSurname"><br/>
         <label for="userEmail">email</label>
         <input required type="email" name="userEmail"><br/>
-        <label for="userPassword">password</label><br/>
-        <input required type="password" name="userPassword">
+        <label for="userPassword">password</label>
+        <input required type="password" name="userPassword"><br/>
+        <label for="passwordConfirmation">password confirmation</label>
+        <input required type="password" name="passwordConfirmation" ><br />
         <button type="submit">submit</button>
     </form>
+
+    {{#if userError}}
+        <p>{{message}}</p>
+    {{/if}}
 </body>
 </html>

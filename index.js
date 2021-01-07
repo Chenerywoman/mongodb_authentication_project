@@ -44,17 +44,36 @@ app.get('/register', (req, res) => {
 
 app.post("/register", async (req, res) => {
 
-    const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
-    console.log(hashedPassword)
+    const user = await User.findOne({email: req.body.userEmail})
+   
+    if (req.body.userPassword != req.body.passwordConfirmation){
 
-    await User.create({
-        first_name: req.body.userName,
-        surname: req.body.userSurname,
-        email: req.body.userEmail,
-        password: hashedPassword
-    });
+        res.render("register", {
+            userError: true,
+            message: "Your password entries do not match.  Please re-enter your details and make sure the password and password confirmation fields match."
+        });
 
-    res.send("profile created")
+    } else if (user) {
+            
+        res.render("register", {
+            userError: true,
+            message: "The email you entered on the database already exists.  Are you already registered?  If not, please choose another email."
+        });
+
+    } else {
+
+        const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
+
+        await User.create({
+            first_name: req.body.userName,
+            surname: req.body.userSurname,
+            email: req.body.userEmail,
+            password: hashedPassword
+        });
+
+        res.render("profile");
+    }
+
 
 });
 
