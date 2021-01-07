@@ -12,6 +12,9 @@ const path = require('path');
 // middleware
 const auth = require('./middleware/auth');
 
+// helper function
+const helpers = require('./helpers')
+
 // models
 const User = require('./models/userModel');
 const Blog = require('./models/blogModel');
@@ -64,24 +67,33 @@ app.post("/register", async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
 
-        await User.create({
+        const newUser = await User.create({
             first_name: req.body.userName,
             surname: req.body.userSurname,
             email: req.body.userEmail,
             password: hashedPassword
         });
 
-        res.send("you are registered");
+        helpers.createCookie(newUser._id, res)
+       
+        res.redirect("profile");
     }
 });
 
-app.get("/login", (req, res) => {
-    res.render("login");
+app.get("/login", auth.isLoggedIn, (req, res) => {
+    
+    if (req.userFound) {
+        
+        res.redirect("/profile")
+
+    } else {
+        res.render("login");
+    }
 })
 
 app.post("/login", async (req, res) => {
 
-    try {
+    try {   
             const user = await User.findOne({email: req.body.userEmail});
 
             console.log(user)
@@ -89,17 +101,9 @@ app.post("/login", async (req, res) => {
             const isMatch = await bcrypt.compare(req.body.userPassword, user.password);
         
             if (isMatch) {
-                const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
-        
-                const cookieOptions = {
-                    expires: new Date(
-                        Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                    ),
-                    httpOnly: true
-                }
-        
-                res.cookie('jwt', token, cookieOptions)
-        
+
+                helpers.createCookie(user._id, res)
+              
                 res.redirect("profile")
             
             } else {
@@ -115,11 +119,103 @@ app.post("/login", async (req, res) => {
         res.redirect("/error")
 
     }
-  
+    
 });
 
-app.get("/profile", (req, res) => {
-    res.render("profile");
+app.get("/profile", auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound){
+
+        res.render("profile", {
+            first_name: req.userFound.first_name,
+            surname: req.userFound.surname,
+            email: req.userFound.email
+        });
+
+    } else {
+
+        res.redirect("/login");
+    }
+});
+
+app.get("/update", auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound) {
+        res.render("update")
+    } else {
+
+        res.redirect("/login")
+    }
+});
+
+app.get("/deleted", (req, res) => {
+    res.render("deleted")
+});
+
+app.post("/delete", auth.isLoggedIn, async (req, res) => {
+   
+    if (req.userFound) {
+
+        try {
+            const deleted = await User.findByIdAndDelete(req.userFound._id);
+            console.log(deleted)
+            res.render("deleted", {
+                message: `${deleted.first_name} ${deleted.surname} has been deleted from the database`
+            });
+
+        } catch (error) {
+                console.log(error)
+                res.render("error");
+        }
+
+    } else {
+        console.log(error)
+        res.redirect("error")
+    }
+});
+
+app.get("/newblog", auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound) {
+
+        res.render("newblog");
+
+    } else {
+
+        res.redirect("/login");
+    }
+});
+
+app.post("/newblog", async (req, res) => {
+
+    try {
+        const newblog = await Blogpost.create({
+            title: req.body.postTitle,
+            body: req.body.postBody,
+            user: req.userFound._id
+        });
+
+        console.log(newblog)
+        res.send("post created")
+
+    } catch (error) {
+
+        res.redirect("/error")
+
+    }
+
+});
+
+app.get("/userblogs", auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound) {
+
+        res.render("userblogs");
+
+    } else {
+
+        res.redirect("/login");
+    }
 });
 
 app.get("/logout", auth.logout, (req, res) => {
