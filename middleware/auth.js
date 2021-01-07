@@ -9,8 +9,6 @@ exports.isLoggedIn = async (req, res, next) => {
 
         const decoded = await jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
-        console.log(decoded)
-
         req.userFound = await User.findById(decoded.id)
     }
 
