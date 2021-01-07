@@ -90,6 +90,10 @@ If admin user is logged in, they can:
 * update a blog
 * delete a blog
 
+### Logout
+
+A user should be able to log out from the website.  
+
 ## Issues and solutions
 
 Some issues I had and the solutions I came up with were:
