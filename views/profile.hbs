@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Your profile</h1>
+    <h3>Name:{{first_name}} {{surname}}</h3>
+    <h3>Email:{{email}}</h3>
+
+    <a href="/newblog">Post a blog</a>
+    <a href="/userblogs">All your blogs</a>
+    <a href="/update">Update your profile</a>
+
+
+    <form action="/delete" method="POST">
+        <button type="submit">Delete User</button>
+    </form>
+</body>
+</html>
