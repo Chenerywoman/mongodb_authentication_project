@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login page</h1>
+     <form action="/login" method="POST">
+        <label for="userEmail">email</label>
+        <input required type="email" name="userEmail"><br/>
+        <label for="userPassword">password</label><br/>
+        <input required type="password" name="userPassword"><br />
+        <button type="submit">login</button>
+    </form>
+
+    {{#if message}}
+        <p>{{message}}</p>
+
+    {{/if}}
+</body>
+</html>

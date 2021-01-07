@@ -71,17 +71,69 @@ app.post("/register", async (req, res) => {
             password: hashedPassword
         });
 
-        res.render("profile");
+        res.send("you are registered");
     }
-
-
 });
 
+app.get("/login", (req, res) => {
+    res.render("login");
+})
+
+app.post("/login", async (req, res) => {
+
+    try {
+            const user = await User.findOne({email: req.body.userEmail});
+
+            console.log(user)
+
+            const isMatch = await bcrypt.compare(req.body.userPassword, user.password);
+        
+            if (isMatch) {
+                const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
+        
+                const cookieOptions = {
+                    expires: new Date(
+                        Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                    ),
+                    httpOnly: true
+                }
+        
+                res.cookie('jwt', token, cookieOptions)
+        
+                res.redirect("profile")
+            
+            } else {
+        
+                res.render("login", {
+                    message: "please check your email and password are correct"
+                });
+            }
+
+    } catch (error) {
+        
+        console.log(error)
+        res.redirect("/error")
+
+    }
+  
+});
+
+app.get("/profile", (req, res) => {
+    res.render("profile");
+});
+
+app.get("/logout", auth.logout, (req, res) => {
+    res.render("logout");
+});
+
+app.get("/error", (req, res)=> {
+    res.render("error")
+});
 
 app.get('/*', (req, res) => {
-    res.render("404")
+    res.render("404");
 });
 
 app.listen(5000, () => {
-    console.log('server running on port 5000')
+    console.log('server running on port 5000');
 });
