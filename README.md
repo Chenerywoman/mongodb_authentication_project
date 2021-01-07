@@ -86,10 +86,8 @@ If admin user is logged in, they can:
 ### Admin account - all blogs page
 
 If admin user is logged in, they can:
-* access the page showing all blogs
-* update a blog
-* delete a blog
-
+* update any blog
+* delete any blog
 ### Logout
 
 A user should be able to log out from the website.  
