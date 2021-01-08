@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body>
+    <h1>Admin Page</h1>
+
+    <p>Only users with admin access can access this page.</p>
+    
+        <h2>Register a new user</h2>
+
+        <form action="/admin" method="POST">
+            <label for="userName">first name</label><br/>
+            <input required type="text" name="userName"><br/>
+            <label for="userSurname">surname</label><br/>
+            <input required type="text" name="userSurname"><br/>
+            <label for="userEmail">email</label>
+            <input required type="email" name="userEmail"><br/>
+            <label for="userPassword">password</label>
+            <input required type="password" name="userPassword"><br/>
+            <label for="passwordConfirmation">password confirmation</label>
+            <input required type="password" name="passwordConfirmation" ><br />
+            <button type="submit">submit</button>
+        </form>
+
+        <p>{{message}}</p>
+
+        <h2>All users</h2>
+        <a href="/allusers"> View all users</a>
+
+</body>
+</html>

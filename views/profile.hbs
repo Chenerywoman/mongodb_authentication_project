@@ -18,5 +18,10 @@
     <form action="/delete" method="POST">
         <button type="submit">Delete User</button>
     </form>
+
+    {{#if admin}}
+    <a href="/admin">Admin page</a>
+    
+    {{/if}}
 </body>
 </html>

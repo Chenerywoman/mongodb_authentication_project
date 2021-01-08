@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+</head>
+<body>
+    <h1>Update Profile</h1>
+   
+    <form class="update" action="/update" method="POST">
+        <label for="first_name" >first name</label>
+        <input required type="text" name="first_name" value={{first_name}}><br>
+        <label for="surname">surname</label>
+        <input required type="text" name="surname" value={{surname}}><br>
+        <label for="email">email</label>
+        <input required type="text" name="email" value={{email}}><br>
+        <label type="text" name="password">password</label>
+        <input required type="password" name="password" value={{password}}>
+        <button type="submit">Update</button>
+    </form>
+
+</body>
+</html>

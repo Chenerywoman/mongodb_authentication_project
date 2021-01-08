@@ -42,14 +42,18 @@ The profile page must have:
     - new blog - takes to page to create a new blog
     - all user's blogs - takes to a page displaying all the user's blogs
 
-### Update Page
+### Update Page 
 
-The update page must have:
+The update page must allow the user to update any of the following relating to their entry the MongoDB users collection:
+* name
+* email
+* password
 
 * functionality to input the old password
     - old password to be checked against the database
     - if old password is correct, password can be updated
-* redirection to confirmation
+
+* redirection to update profile page
 
 ### Close Account functionality
 
@@ -76,18 +80,15 @@ The page of blogs for an individual user should:
 * enable the blog post to be edited
 * allow the user to delete the blog post
 
-### Admin account-all users page
+### Admin account
 
 If admin user is logged in, they can:
 * access a page showing all users of in the collection
 * update a user
 * delete a user
-
-### Admin account - all blogs page
-
-If admin user is logged in, they can:
 * update any blog
 * delete any blog
+
 ### Logout
 
 A user should be able to log out from the website.  
