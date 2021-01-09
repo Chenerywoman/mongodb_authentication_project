@@ -39,14 +39,23 @@ app.use(cookieParser());
 
 // allows passig of data
 app.use(express.urlencoded({extended: false}));
-app.use(express.json({extended: false}));
-
-app.get('/register', (req, res) => {
-    res.render("register")
-});
+app.us
 
 app.get('/', (req, res) => {
     res.render("index.hbs")
+});
+
+app.get('/register', auth.isLoggedIn, (req, res) => {
+
+    if (!req.userFound){
+
+        res.render("register")
+
+    } else {
+
+        res.redirect("/profile")
+    }
+    
 });
 
 app.post("/register", auth.isLoggedIn, async (req, res) => {
@@ -91,22 +100,22 @@ app.post("/register", auth.isLoggedIn, async (req, res) => {
             res.redirect("/error")
         }
     } else {
-        res.redirect("/*")
+        res.redirect("/profile")
     }
 });
 
-app.get("/admin", auth.isLoggedIn, (req, res) => {
+app.get("/admin-register", auth.isLoggedIn, (req, res) => {
 
     if (req.userFound && req.userFound.admin){
         res.render("admin")
 
     } else {
-        res.redirect("/*")
+        res.redirect("not-admin")
     }
 
 });
 
-// app.post("/admin", auth.isLoggedIn, async (req, res) => {
+// app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
 
 //     try {
 //         const user = await User.findOne({ email: req.body.userEmail })
@@ -240,7 +249,7 @@ app.get("/admin-profile", auth.isLoggedIn, (req, res) => {
             
         } else {
 
-            res.redirect("/profile")
+            res.redirect("/not-admin")
 
         }
 
@@ -604,6 +613,10 @@ app.post("/deleteblog/:id", auth.isLoggedIn, async (req, res) => {
         res.redirect("login")
     }
 
+});
+
+app.get('/not-admin', (req, res) => {
+    res.render("not_admin");
 });
 
 app.get("/logout", auth.logout, (req, res) => {
