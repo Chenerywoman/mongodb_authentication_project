@@ -18,8 +18,6 @@ const helpers = require('./helpers')
 // models
 const User = require('./models/userModel');
 const Blog = require('./models/blogModel');
-const { RSA_NO_PADDING } = require('constants');
-const { registerHelper } = require('hbs');
 
 const app = express();
 dotenv.config({path:'./.env'})
@@ -108,46 +106,46 @@ app.get("/admin", auth.isLoggedIn, (req, res) => {
 
 });
 
-app.post("/admin", auth.isLoggedIn, async (req, res) => {
+// app.post("/admin", auth.isLoggedIn, async (req, res) => {
 
-    try {
-        const user = await User.findOne({ email: req.body.userEmail })
+//     try {
+//         const user = await User.findOne({ email: req.body.userEmail })
 
-        if (req.body.userPassword != req.body.passwordConfirmation) {
+//         if (req.body.userPassword != req.body.passwordConfirmation) {
 
-            res.render("admin", {
-                message: "The password entries do not match.  Please re-enter the details and make sure the password and password confirmation fields match."
-            });
+//             res.render("admin", {
+//                 message: "The password entries do not match.  Please re-enter the details and make sure the password and password confirmation fields match."
+//             });
 
-        } else if (user) {
+//         } else if (user) {
 
-            res.render("admin", {
-                message: "The email you entered on the database already exists.  Is the user already registered?  If not, please choose another email."
-            });
+//             res.render("admin", {
+//                 message: "The email you entered on the database already exists.  Is the user already registered?  If not, please choose another email."
+//             });
 
-        } else {
+//         } else {
 
-            const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
+//             const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
 
-            const newUser = await User.create({
-                first_name: req.body.userName,
-                surname: req.body.userSurname,
-                email: req.body.userEmail,
-                password: hashedPassword
-            });
-            console.log("new user")
-            console.log(newUser)
-            res.render("admin", {
-                message: `user ${newUser.first_name} ${newUser.surname} registered`
-            });
-        }
+//             const newUser = await User.create({
+//                 first_name: req.body.userName,
+//                 surname: req.body.userSurname,
+//                 email: req.body.userEmail,
+//                 password: hashedPassword
+//             });
+//             console.log("new user")
+//             console.log(newUser)
+//             res.render("admin", {
+//                 message: `user ${newUser.first_name} ${newUser.surname} registered`
+//             });
+//         }
 
-    } catch (error) {
-        console.log(error)
-        res.redirect("/error")
-    }
+//     } catch (error) {
+//         console.log(error)
+//         res.redirect("/error")
+//     }
 
-});
+// });
 
 app.get("/login", auth.isLoggedIn, (req, res) => {
     
@@ -170,6 +168,16 @@ app.post("/login", async (req, res) => {
             if (isMatch) {
 
                 helpers.createCookie(user._id, res)
+
+                if (user.admin) {
+                    
+                    res.redirect("/profile")
+                
+                } else {
+
+                    res.redirect("/admin-profile")
+
+                }
               
                 res.redirect("profile")
             
@@ -195,17 +203,81 @@ app.get("/profile", auth.isLoggedIn, (req, res) => {
 
         const admin = req.userFound.admin ? true : false
 
-        res.render("profile", {
-            first_name: req.userFound.first_name,
-            surname: req.userFound.surname,
-            email: req.userFound.email,
-            admin: admin
-        });
+        if (admin) {
+
+            res.redirect("/admin-profile")
+
+        } else {
+
+            res.render("profile", {
+                first_name: req.userFound.first_name,
+                surname: req.userFound.surname,
+                email: req.userFound.email,
+            });
+
+        }
 
     } else {
 
         res.redirect("/login");
     }
+});
+
+app.get("/admin-profile", auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound){
+
+        const admin = req.userFound.admin ? true : false
+
+        if (admin) {
+
+            res.render("admin-profile", {
+                first_name: req.userFound.first_name,
+                surname: req.userFound.surname,
+                email: req.userFound.email,
+                admin: admin
+            });
+            
+        } else {
+
+            res.redirect("/profile")
+
+        }
+
+    } else {
+
+        res.redirect("/login");
+    }
+});
+
+app.get("/preupdate", auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound) {
+
+        try {
+
+            const user = User.findOne({ password: req.body.userPassword});
+
+            const isMatch = user.email == req.userFound.email ? true : false;
+
+            if (isMatch) {
+
+                res.render("/update")
+            }
+
+        } catch (error) {
+
+
+        }
+    } else {
+
+        res.render("/login")
+    }
+
+    
+
+    
+
 });
 
 app.get("/update", auth.isLoggedIn, (req, res) => {
@@ -412,6 +484,14 @@ app.post("/newblog", auth.isLoggedIn, async (req, res) => {
     }
 
 });
+
+
+// blog by admin here
+
+
+
+
+
 
 app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
 
