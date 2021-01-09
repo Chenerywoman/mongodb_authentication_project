@@ -28,11 +28,11 @@ nav ul li a{
 }
 
 nav ul li a:link {
-    color: #FFBA49 
+    color: #A8201A
 }
 
 nav ul li a:visited{
-    color: #566246;
+    color: #7EA3CC;
 }
 
 @media only screen and (max-width: 350px) {
