@@ -92,7 +92,7 @@ app.post("/register", auth.isLoggedIn, async (req, res) => {
 
                 helpers.createCookie(newUser._id, res)
             
-                res.redirect("profile");
+                res.redirect("/profile");
             }
 
         } catch (error) {
@@ -106,55 +106,70 @@ app.post("/register", auth.isLoggedIn, async (req, res) => {
 
 app.get("/admin-register", auth.isLoggedIn, (req, res) => {
 
-    if (req.userFound && req.userFound.admin){
-        res.render("admin")
+    if (req.userFound) {
+
+        if (req.userFound.admin){
+            res.render("admin_register")
+    
+        } else {
+            res.redirect("/not-admin")
+        }
 
     } else {
-        res.redirect("not-admin")
+        
+        res.redirect("/login")
     }
 
 });
 
-// app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
+app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
 
-//     try {
-//         const user = await User.findOne({ email: req.body.userEmail })
+    if (auth.isLoggedIn && auth.isLoggedIn.admin) {
 
-//         if (req.body.userPassword != req.body.passwordConfirmation) {
+        try {
+            const user = await User.findOne({ email: req.body.userEmail })
 
-//             res.render("admin", {
-//                 message: "The password entries do not match.  Please re-enter the details and make sure the password and password confirmation fields match."
-//             });
+            if (req.body.userPassword != req.body.passwordConfirmation) {
 
-//         } else if (user) {
+                res.render("admin-register", {
+                    message: "The password entries do not match.  Please re-enter the details and make sure the password and password confirmation fields match."
+                });
 
-//             res.render("admin", {
-//                 message: "The email you entered on the database already exists.  Is the user already registered?  If not, please choose another email."
-//             });
+            } else if (user) {
 
-//         } else {
+                res.render("admin-register", {
+                    message: "The email you entered on the database already exists.  Is the user already registered?  If not, please choose another email."
+                });
 
-//             const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
+            } else {
 
-//             const newUser = await User.create({
-//                 first_name: req.body.userName,
-//                 surname: req.body.userSurname,
-//                 email: req.body.userEmail,
-//                 password: hashedPassword
-//             });
-//             console.log("new user")
-//             console.log(newUser)
-//             res.render("admin", {
-//                 message: `user ${newUser.first_name} ${newUser.surname} registered`
-//             });
-//         }
+                const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
 
-//     } catch (error) {
-//         console.log(error)
-//         res.redirect("/error")
-//     }
+                const newUser = await User.create({
+                    first_name: req.body.userName,
+                    surname: req.body.userSurname,
+                    email: req.body.userEmail,
+                    password: hashedPassword,
+                    admin: req.body.admin
+                });
+                console.log("new user")
+                console.log(newUser)
 
-// });
+                res.render("admin-register", {
+                    message: `user ${newUser.first_name} ${newUser.surname} registered`
+                });
+            }
+
+        } catch (error) {
+            console.log(error)
+            res.redirect("/error")
+        }
+
+    } else {
+        res.redirect("/not-admin")
+    }
+
+});
 
 app.get("/login", auth.isLoggedIn, (req, res) => {
     
@@ -358,7 +373,7 @@ app.get("/update/:id", auth.isLoggedIn, async (req, res) => {
     
     } else {
 
-        res.redirect("/*")
+        res.redirect("/not-admin")
     }
 });
 
