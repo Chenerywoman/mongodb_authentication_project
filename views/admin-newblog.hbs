@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Create Blog</title>
+</head>
+<body>
+    {{>Nav}}
+    <h1>Create Blog for User: Admin only</h1>
+
+    <h2>Create new blog for {{first_name}} {{surname}}</h2>
+    <h3>id: {{userId}}</h3>
+        <form class="new-blog" action="/newblog/{{userId}}" method="POST">
+            <div class="row">
+                <label for="title">title</label>
+                <input required class="title" type="text" name="title"><br>
+            </div>
+            <div class="row">
+                <label for="blog">blog</label>
+                <textarea required class="blog" rows="10" cols="35" name="blog"></textarea><br>
+            </div>
+                <label for="submit"></label>
+                <button class="create" type="submit">Create</button>
+        </form>
+</body>
+</html>
