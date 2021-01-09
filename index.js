@@ -684,6 +684,65 @@ app.post("/updateblog/:id", auth.isLoggedIn, async (req, res) => {
     }
 })
 
+app.get("/admin-updateblog/:id", auth.isLoggedIn, async (req, res) => {
+
+    if (req.userFound && req.userFound.admin){
+
+        try {
+
+            const blogToUpdate = await Blog.findById({_id: req.params.id}).populate('user', 'first_name surname _id')
+
+            res.render("admin-updateblog", {
+                id: req.params.id,
+                title: blogToUpdate.title,
+                blog: blogToUpdate.body,
+                first_name: blogToUpdate.user.first_name,
+                surname: blogToUpdate.user.surname, 
+                userId: blogToUpdate.user._id
+
+            });
+
+        } catch (error) {
+
+            console.log(error)
+            res.redirect("/error")
+
+        }
+       
+    } else {
+
+        res.render("/not-admin")
+    }
+});
+
+app.post("/admin-updateblog/:id", auth.isLoggedIn, async (req, res) => {
+
+    if (req.userFound && req.userFound.admin) {
+
+        try {
+            console.log('req.params')
+            console.log(req.params.id)
+            const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, {
+                title: req.body.title,
+                body: req.body.blog
+            })
+
+            res.redirect(`/userblogs/${updatedBlog.user}`)
+
+        } catch (error) {
+
+            console.log(error);
+            res.redirect("/error")
+
+        }
+        
+
+    } else {
+        res.redirect("/not-admin")
+    }
+})
+
+
 app.post("/deleteblog/:id", auth.isLoggedIn, async (req, res) => {
 
     if (req.userFound) {
