@@ -27,7 +27,7 @@
                     </tr>
                 </table>
 
-                <form class="update" action="/update/{{this.id}}" method="POST">
+                <form class="update" action="/update/{{this.id}}" method="GET">
                         <button type="submit">Update</button>
                 </form>
 
@@ -35,6 +35,12 @@
                     <input class="user-to-delete" type="hidden" name="userName" value="{{this.first_name}} {{this.surname}}">
                     <button type="submit">Delete</button>
                 </form>
+
+
+                <form class="newblog" action="/newblog/{{this.id}}" method="GET">
+                    <button type="submit">Blog</button>
+                </form>
+
 
             </div>
         {{/each}}
