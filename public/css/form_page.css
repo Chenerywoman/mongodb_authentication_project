@@ -5,7 +5,13 @@ body {
     margin: 0;
 }
 
-.new-blog, .update-blog, .update, .register{
+h1 {
+    margin-top: 2em;
+    top: 0;
+    width: 100%;
+}
+
+.new-blog, .update-blog, .update, .register, .login{
     display:table;
     margin: 8em auto 2em auto;
     width: 400px;
@@ -15,7 +21,7 @@ body {
     background-color: #7EA3CC;
 }
 
-.new-blog .row, .update-blog .row, .update .row{
+.new-blog .row, .update-blog .row, .update .row, .login .row{
     display:table-row;
 }
 
