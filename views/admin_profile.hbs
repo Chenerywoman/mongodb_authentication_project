@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Admin Profile</title>
 </head>
 <body>
     {{>Nav}}
-    <h1>Your profile</h1>
+    <h1>Your profile &#40; Admin User &#41; </h1>
     <h3>Name:{{first_name}} {{surname}}</h3>
     <h3>Email:{{email}}</h3>
+    <h3>Admin:{{admin}}</h3>
 
+    <h2>Your Account</h2>
     <a href="/newblog">Post a blog</a>
     <a href="/userblogs">All my blogs</a>
     <a href="/update">Update my profile</a>
@@ -19,6 +21,11 @@
     <form action="/delete" method="POST">
         <button type="submit">Delete Account</button>
     </form>
+
+    <h2>User Accounts</h2>
+    <a href="/allusers">Register New User</a>
+    <a href="/allusers">All users</a>
+    <a href="/userblogs">All blogs</a>
 
 </body>
 </html>
