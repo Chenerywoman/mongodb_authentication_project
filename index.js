@@ -58,7 +58,7 @@ app.get('/register', auth.isLoggedIn, (req, res) => {
 
     } else {
 
-        res.redirect("/profile")
+        res.redirect("/registered")
     }
     
 });
@@ -109,6 +109,10 @@ app.post("/register", auth.isLoggedIn, async (req, res) => {
     }
 });
 
+app.get("/registered", (req, res) => {
+    res.render("registered")
+});
+
 app.get("/admin-register", auth.isLoggedIn, (req, res) => {
 
     if (req.userFound) {
@@ -122,7 +126,7 @@ app.get("/admin-register", auth.isLoggedIn, (req, res) => {
 
     } else {
         
-        res.redirect("/login")
+        res.redirect("/not-logged-in")
     }
 
 });
@@ -149,13 +153,14 @@ app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
             } else {
 
                 const hashedPassword = await bcrypt.hash(req.body.userPassword, 8);
+                const admin = req.body.admin == "yes" ? true : false
 
                 const newUser = await User.create({
                     first_name: req.body.userName,
                     surname: req.body.userSurname,
                     email: req.body.userEmail,
                     password: hashedPassword,
-                    admin: req.body.admin
+                    admin: admin
                 });
                 console.log("new user")
                 console.log(newUser)
@@ -180,7 +185,7 @@ app.get("/login", auth.isLoggedIn, (req, res) => {
     
     if (req.userFound) {
         
-        res.redirect("/profile")
+        res.redirect("/logged-in")
 
     } else {
         res.render("login");
@@ -189,41 +194,57 @@ app.get("/login", auth.isLoggedIn, (req, res) => {
 
 app.post("/login", async (req, res) => {
 
-    try {   
-            const user = await User.findOne({email: req.body.userEmail});
+    try {
+        const user = await User.findOne({
+            email: req.body.userEmail
+        });
+
+        if (user) {
 
             const isMatch = await bcrypt.compare(req.body.userPassword, user.password);
-        
+
             if (isMatch) {
 
                 helpers.createCookie(user._id, res)
 
                 if (user.admin) {
-                    
-                    res.redirect("/profile")
-                
-                } else {
 
                     res.redirect("/admin-profile")
 
+                } else {
+
+                    res.redirect("/profile")
+
                 }
-              
-                res.redirect("profile")
-            
+
+                // res.redirect("profile")
+
             } else {
-        
+
                 res.render("login", {
                     message: "please check your email and password are correct"
                 });
             }
 
+        } else {
+            res.render("login", {
+                message: "please check your email and password are correct"
+            });
+        }
+
+
+
     } catch (error) {
-        
+
         console.log(error)
         res.redirect("/error")
 
     }
-    
+
+});
+
+app.get("/logged-in", (req, res) => {
+    res.render("logged_in");
 });
 
 app.get("/profile", auth.isLoggedIn, (req, res) => {
@@ -248,8 +269,12 @@ app.get("/profile", auth.isLoggedIn, (req, res) => {
 
     } else {
 
-        res.redirect("/login");
+        res.redirect("/not-logged-in");
     }
+});
+
+app.get("/not-logged-in", (req, res) => {
+    res.render("not_logged_in")
 });
 
 app.get("/admin-profile", auth.isLoggedIn, (req, res) => {
@@ -275,7 +300,7 @@ app.get("/admin-profile", auth.isLoggedIn, (req, res) => {
 
     } else {
 
-        res.redirect("/login");
+        res.redirect("/not-logged-in");
     }
 });
 
@@ -300,7 +325,7 @@ app.get("/preupdate", auth.isLoggedIn, (req, res) => {
         }
     } else {
 
-        res.render("/login")
+        res.render("/not-logged-in")
     }
 
 
@@ -319,7 +344,7 @@ app.get("/update", auth.isLoggedIn, (req, res) => {
         })
     } else {
 
-        res.redirect("/login")
+        res.redirect("/not-logged-in")
     }
 });
 
@@ -482,7 +507,7 @@ app.get("/allusers", auth.isLoggedIn, async (req, res) => {
         }
 
     } else {
-        res.redirect("/login")
+        res.redirect("/not-logged-in")
     }
 });
 
@@ -494,7 +519,7 @@ app.get("/newblog", auth.isLoggedIn, (req, res) => {
 
     } else {
 
-        res.redirect("/login");
+        res.redirect("/not-logged-in");
     }
 });
 
@@ -579,7 +604,7 @@ app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
 
     } else {
 
-        res.redirect("/login");
+        res.redirect("/not-logged-in");
     }
 });
 
@@ -638,7 +663,7 @@ app.get("/allblogs", auth.isLoggedIn, async (req, res) => {
 
     } else {
 
-        res.redirect("/login")
+        res.redirect("/not-logged-in")
         
     }
 });
@@ -657,7 +682,7 @@ app.get("/updateblog/:id", auth.isLoggedIn, async (req, res) => {
 
     } else {
 
-        res.render("/login")
+        res.render("/not-logged-in")
     }
 });
 
