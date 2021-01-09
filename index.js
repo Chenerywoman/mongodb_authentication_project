@@ -511,8 +511,50 @@ app.post("/newblog", auth.isLoggedIn, async (req, res) => {
 
 // blog by admin here
 
+app.get("/newblog/:id", auth.isLoggedIn, (req, res) => {
 
+    if (req.userFound && req.userFound.admin) {
 
+        try {
+
+            const user = User.findOne({_id: req.params.id})
+
+            res.render("admin-newblog", {
+                userId: user._id,
+                first_name: user.first_name,
+                surname: user.surname
+
+            });
+
+        } catch (error) {
+            console.log(error)
+            res.redirect(error)
+        }   
+
+    } else {
+
+        res.redirect("/not-admin");
+    }
+});
+
+app.post("/newblog/:id", auth.isLoggedIn, async (req, res) => {
+
+    try {
+        const newblog = await Blog.create({
+            title: req.body.title,
+            body: req.body.blog,
+            user: req.params.id
+        });
+
+        res.redirect("/allblogs")
+
+    } catch (error) {
+        console.log(error)
+        res.redirect("/error")
+
+    }
+
+});
 
 
 
