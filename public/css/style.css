@@ -11,10 +11,12 @@ h1 {
     width: 100%;
 }
 
-p {
-    margin-top: 3em;
-    width: 90%;
-    margin: 1em auto;
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    width: 30vw;
+    justify-content: space-evenly;
 }
 
 .create {
@@ -35,4 +37,18 @@ p {
     font-size: 1em;
     border-radius: 15%;
     color: #FFBA49;
+}
+
+.create a {
+    
+    text-decoration: none;
+    color: #A8201A;
+    font-size: x-large;
+}
+
+.login a {
+
+    text-decoration: none;
+    color: #7EA3CC;
+    font-size: x-large;
 }
