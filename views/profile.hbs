@@ -12,13 +12,14 @@
     <h3>Name:{{first_name}} {{surname}}</h3>
     <h3>Email:{{email}}</h3>
 
-    <a href="/newblog">Post a blog</a>
-    <a href="/userblogs">All my blogs</a>
-    <button class="create"><a href="/update">Update my profile</a></button>
-
-    <form action="/delete" method="POST">
-        <button class="delete" type="submit">Delete</button>
-    </form>
+    <div class="buttons-container">
+        <button class="create"><a href="/newblog">Post</a></button>
+        <button class="blogs"><a href="/userblogs">Blogs</a></button>
+        <button class="change"><a href="/update">Update</a></button>
+        <form action="/delete" method="POST">
+            <button class="delete" type="submit">Delete</button>
+        </form>
+    </div>
 
 </body>
 </html>
