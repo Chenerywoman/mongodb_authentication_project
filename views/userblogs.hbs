@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/list_page.css">
+    <link rel="stylesheet" href="/css/list_page.css">
     <title>Your blogs</title>
 </head>
 <body>
@@ -15,11 +15,12 @@
             <h4>{{this.title}}</h4>
             <h5>author: {{this.user.first_name}} {{this.user.surname}}</h5>
             {{!-- <a href="/blog/{{this._id}}">{{this.title}}</a>  --}}
-            <button class="create"><a href="/updateblog/{{this._id}}">change</a></button>
-
-            <form action="/deleteblog/{{this._id}}" method="POST">
-                <button class="delete" type="submit">delete</button>
-            </form>
+            <div class="buttons-container">
+                <button class="change"><a href="/updateblog/{{this._id}}">change</a></button>
+                <form action="/deleteblog/{{this._id}}" method="POST">
+                    <button class="delete" type="submit">delete</button>
+                </form>
+            </div>
         </div>
         {{/each}}
     </div>
