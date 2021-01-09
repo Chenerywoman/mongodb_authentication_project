@@ -412,7 +412,7 @@ app.post("/delete", auth.isLoggedIn, async (req, res) => {
             const deleted = await User.findByIdAndDelete(req.userFound._id);
             console.log(deleted)
             res.render("deleted", {
-                message: `${deleted.first_name} ${deleted.surname} has been deleted from the database`
+                message: `${deleted.first_name} ${deleted.surname} has been deleted.`
             });
 
         } catch (error) {
@@ -424,6 +424,10 @@ app.post("/delete", auth.isLoggedIn, async (req, res) => {
         console.log(error)
         res.redirect("error")
     }
+});
+
+app.get("/deleted", auth.logout, (req, res) => {
+    res.render("deleted");
 });
 
 app.post("/delete/:id", auth.isLoggedIn, async (req, res) => {
