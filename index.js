@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
+const hbs = require("hbs");
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
@@ -41,6 +42,9 @@ app.use(cookieParser());
 
 // allows passig of data
 app.use(express.urlencoded({extended: false}));
+
+// not needed as not json data received
+// app.use(express.json());
 
 app.get('/', (req, res) => {
     res.render("index.hbs")
