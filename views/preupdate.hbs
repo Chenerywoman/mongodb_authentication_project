@@ -7,18 +7,17 @@
 </head>
 <body>
     {{>Nav}}
-    <h1>Login page</h1>
-     <form action="/login" method="POST">
-        <label for="userEmail">email</label>
+    <h1>Update user</h1>
+
+    <p>Please re-submit your current email /& user password to update your profile.</p>
+
+    <form action="/preupdate" method="POST">
+         <label for="userEmail">email</label>
         <input required type="email" name="userEmail"><br/>
         <label for="userPassword">password</label><br/>
         <input required type="password" name="userPassword"><br />
-        <button type="submit">login</button>
+        <button type="submit">submit</button>
     </form>
 
-    {{#if message}}
-        <p>{{message}}</p>
-
-    {{/if}}
 </body>
 </html>

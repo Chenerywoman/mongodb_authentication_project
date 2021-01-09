@@ -6,6 +6,7 @@
     <title>Your blogs</title>
 </head>
 <body>
+    {{>Nav}}
     <h1>{{#if ownblogs}}Your {{else}} All {{/if}}blogs</h1>
     <div class="individual-blogs-container">
         {{#each blogs}}
