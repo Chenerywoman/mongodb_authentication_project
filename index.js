@@ -298,9 +298,6 @@ app.get("/preupdate", auth.isLoggedIn, (req, res) => {
         res.render("/login")
     }
 
-    
-
-    
 
 });
 
@@ -357,11 +354,12 @@ app.get("/update/:id", auth.isLoggedIn, async (req, res) => {
             const userToUpdate = await User.findOne({_id: req.params.id})
             console.log(userToUpdate)
 
-            res.render("update", {
+            res.render("admin_update", {
                 first_name: userToUpdate.first_name,
                 surname: userToUpdate.surname,
                 email: userToUpdate.email, 
-                password: userToUpdate.password
+                password: userToUpdate.password,
+                id: userToUpdate._id
     
             })
 
@@ -378,7 +376,8 @@ app.get("/update/:id", auth.isLoggedIn, async (req, res) => {
 });
 
 app.post("/update/:id", auth.isLoggedIn, async (req, res) => {
-    console.log("in id update")
+
+
     if (req.userFound && req.userFound.admin) { 
 
         const hashedPassword = await bcrypt.hash(req.body.password, 8);
@@ -400,7 +399,7 @@ app.post("/update/:id", auth.isLoggedIn, async (req, res) => {
         }
 
     } else {
-        res.redirect("/login")
+        res.redirect("/not-admin")
     }
 });
 
