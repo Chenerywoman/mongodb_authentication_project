@@ -6,13 +6,13 @@
     <title>Admin</title>
 </head>
 <body>
-    <h1>Admin Page</h1>
+    <h1>Register Page: Admin only</h1>
 
     <p>Only users with admin access can access this page.</p>
     
         <h2>Register a new user</h2>
 
-        <form action="/admin" method="POST">
+        <form action="/admin-register" method="POST">
             <label for="userName">first name</label><br/>
             <input required type="text" name="userName"><br/>
             <label for="userSurname">surname</label><br/>
@@ -23,6 +23,7 @@
             <input required type="password" name="userPassword"><br/>
             <label for="passwordConfirmation">password confirmation</label>
             <input required type="password" name="passwordConfirmation" ><br />
+          
             <button type="submit">submit</button>
         </form>
 
