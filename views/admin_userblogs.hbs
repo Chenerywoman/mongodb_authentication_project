@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your blogs</title>
+</head>
+<body>
+    {{>Nav}}
+   <h1>Individual User Blogs: Admin Only</h1>
+    <h2>{{this.user.first_name}} {{this.user.surname}}'s blogs</h2>
+    <div class="individual-blogs-container">
+        {{#each blogs}}
+        <div class="individual-blog">
+            <h4>{{this.title}}</h4>
+            {{!-- <a href="/blog/{{this._id}}">{{this.title}}</a>  --}}
+            <button><a href="/updateblog/{{this._id}}">change</a></button>
+
+            <form action="/deleteblog/{{this._id}}" method="POST">
+                <button type="submit">delete</button>
+            </form>
+        </div>
+        {{/each}}
+    </div>
+</body>
+</html>

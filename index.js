@@ -574,6 +574,23 @@ app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
     }
 });
 
+app.get("/userblogs/:id", auth.isLoggedIn, async (req, res) => {
+
+    if (req.userFound && req.userFound.admin) {
+
+        const blogs = await Blog.find({user:req.params.id}).populate('user', 'first_name surname');
+        console.log('blogs')
+        console.log(blogs)
+        res.render("admin-userblogs", {
+            blogs: blogs
+        });
+
+    } else {
+
+        res.redirect("/not-admin");
+    }
+});
+
 app.get("/allblogs", auth.isLoggedIn, async (req, res) => {
 
     if (req.userFound && req.userFound.admin) {
