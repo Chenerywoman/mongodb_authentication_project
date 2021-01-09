@@ -3,24 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/form_page.css">
     <title>Register</title>
 </head>
 <body>
     {{>Nav}}
     <h1>Register a user</h1>
     
-     <form action="/register" method="POST">
-        <label for="userName">first name</label><br/>
-        <input required type="text" name="userName"><br/>
-        <label for="userSurname">surname</label><br/>
-        <input required type="text" name="userSurname"><br/>
-        <label for="userEmail">email</label>
-        <input required type="email" name="userEmail"><br/>
-        <label for="userPassword">password</label>
-        <input required type="password" name="userPassword"><br/>
-        <label for="passwordConfirmation">password confirmation</label>
-        <input required type="password" name="passwordConfirmation" ><br />
-        <button type="submit">submit</button>
+     <form class="register" action="/register" method="POST">
+        <div class="row">
+            <label for="userName">first name</label>
+            <input required type="text" name="userName">
+        </div>
+        <div class="row">
+            <label for="userSurname">surname</label>
+            <input required type="text" name="userSurname">
+        </div>
+        <div class="row">
+            <label for="userSurname">surname</label>
+            <input required type="text" name="userSurname">
+        </div>
+        <div class="row">
+            <label for="userEmail">email</label>
+            <input required type="email" name="userEmail">
+          </div>
+        <div class="row">
+            <label for="userPassword">password</label>
+            <input required type="password" name="userPassword">
+        </div>
+        <div class="row">
+            <label for="passwordConfirmation">password confirmation</label>
+            <input required type="password" name="passwordConfirmation" >
+        </div>
+        <button class="create" type="submit">submit</button>
     </form>
 
     {{#if userError}}

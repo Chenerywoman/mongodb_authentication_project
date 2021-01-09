@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/form_page.css">
     <title>Update</title>
 </head>
 <body>
@@ -10,15 +11,23 @@
     <h1>Update Profile</h1>
    
     <form class="update" action="/update" method="POST">
+     <div class="row">
         <label for="first_name" >first name</label>
-        <input required type="text" name="first_name" value={{first_name}}><br>
+        <input required type="text" name="first_name" value={{first_name}}>
+        </div>
+         <div class="row">
         <label for="surname">surname</label>
-        <input required type="text" name="surname" value={{surname}}><br>
+        <input required type="text" name="surname" value={{surname}}>
+        </div>
+         <div class="row">
         <label for="email">email</label>
-        <input required type="text" name="email" value={{email}}><br>
+        <input required type="text" name="email" value={{email}}>
+        </div>
+         <div class="row">
         <label type="text" name="password">password</label>
         <input required type="password" name="password" value={{password}}>
-        <button type="submit">Update</button>
+        </div>
+        <button class="create" type="submit">Update</button>
     </form>
 
 </body>

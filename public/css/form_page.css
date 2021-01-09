@@ -1,0 +1,44 @@
+body {
+    background-color: #FFBA49;
+    color: #566246;
+    text-align: center;
+    margin: 0;
+}
+
+.new-blog, .update-blog, .update, .register{
+    display:table;
+    margin: 8em auto 2em auto;
+    width: 400px;
+    border-collapse: collapse;
+    border-radius: 5%;
+    padding: 1em;
+    background-color: #7EA3CC;
+}
+
+.new-blog .row, .update-blog .row, .update .row{
+    display:table-row;
+}
+
+.new-blog label, .generate-blog textarea, .generate-blog input, .update-blog label, .update-blog textarea, .update-blog input, .update label, .update input, .register label, .register input, .pre-update label, .pre-update input, .login label, .login input {
+    display: table-cell;
+}
+
+.new-blog textarea, .generate-blog input, .update-blog textarea, .update-blog input, .update input, .register input, .pre-update input, .login input {
+    width: 300px;
+    margin-top: 1.5em;
+}
+
+.new-blog .row label, .update-blog .row label, .update .row label, .register .row label, .pre-update .row label, .login .row label {
+    padding-left: 1em;
+}
+
+.create {
+    margin: 1em 0;
+    background-color: #255C99;
+    border:1px solid #255C99;
+    padding: 0.25em;
+    font-size: 1em;
+    border-radius: 15%;
+    color: #7EA3CC;
+}
+

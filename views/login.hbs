@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/form_page.css">
     <title>Login</title>
 </head>
 <body>
     {{>Nav}}
     <h1>Login page</h1>
-     <form action="/login" method="POST">
-        <label for="userEmail">email</label>
-        <input required type="email" name="userEmail"><br/>
-        <label for="userPassword">password</label><br/>
-        <input required type="password" name="userPassword"><br />
-        <button type="submit">login</button>
+    <form class="login" action="/login" method="POST">
+        <div class="row">
+            <label for="userEmail">email</label>
+            <input required type="email" name="userEmail">
+        </div>
+        <div class="row">
+            <label for="userPassword">password</label>
+            <input required type="password" name="userPassword">
+        </div>
+        <button class="create" type="submit">login</button>
     </form>
 
     {{#if message}}

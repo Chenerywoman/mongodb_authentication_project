@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/list_page.css">
     <title>All Users</title>
 </head>
 <body>
@@ -28,17 +29,17 @@
                 </table>
 
                 <form class="update" action="/update/{{this.id}}" method="GET">
-                        <button type="submit">Update</button>
+                        <button class="change" type="submit">Update</button>
                 </form>
 
                 <form class="delete" action="/delete/{{this.id}}" method="POST">
                     <input class="user-to-delete" type="hidden" name="userName" value="{{this.first_name}} {{this.surname}}">
-                    <button type="submit">Delete</button>
+                    <button class="delete" type="submit">Delete</button>
                 </form>
 
 
                 <form class="newblog" action="/newblog/{{this.id}}" method="GET">
-                    <button type="submit">Blog</button>
+                    <button class="create" type="submit">Blog</button>
                 </form>
 
 

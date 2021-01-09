@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/form_page.css">
     <title>Admin Create Blog</title>
 </head>
 <body>
     {{>Nav}}
-    <h1>Create Blog for User: Admin only</h1>
+    <h1>Post Blog for User: Admin only</h1>
 
     <h2>Create new blog for {{first_name}} {{surname}}</h2>
     <h3>id: {{userId}}</h3>
@@ -21,7 +22,7 @@
                 <textarea required class="blog" rows="10" cols="35" name="blog"></textarea><br>
             </div>
                 <label for="submit"></label>
-                <button class="create" type="submit">Create</button>
+                <button class="create" type="submit">Blog</button>
         </form>
 </body>
 </html>

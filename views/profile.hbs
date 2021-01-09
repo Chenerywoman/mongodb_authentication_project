@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/profile.css">
     <title>Profile</title>
 </head>
 <body>
@@ -13,11 +14,10 @@
 
     <a href="/newblog">Post a blog</a>
     <a href="/userblogs">All my blogs</a>
-    <a href="/update">Update my profile</a>
-
+    <button class="create"><a href="/update">Update my profile</a></button>
 
     <form action="/delete" method="POST">
-        <button type="submit">Delete Account</button>
+        <button class="delete" type="submit">Delete</button>
     </form>
 
 </body>
