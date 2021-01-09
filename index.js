@@ -557,7 +557,6 @@ app.post("/newblog/:id", auth.isLoggedIn, async (req, res) => {
 });
 
 
-
 app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
 
     if (req.userFound) {
@@ -566,8 +565,7 @@ app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
         console.log('my blogs')
         console.log(myblogs)
         res.render("userblogs", {
-            blogs: myblogs, 
-            ownblogs: true
+            blogs: myblogs
         });
 
     } else {
@@ -579,23 +577,42 @@ app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
 app.get("/allblogs", auth.isLoggedIn, async (req, res) => {
 
     if (req.userFound && req.userFound.admin) {
+
+        if (req.userFound.admin) {
         
-        try {
+            try {
 
-            const allblogs = await Blog.find().populate('user', 'first_name surname')
+                const allblogs = await Blog.find().populate('user', 'first_name surname')
 
-            res.render("userblogs", {
-                blogs: allblogs
-            });
+                res.render("userblogs", {
+                    blogs: allblogs
+                });
 
-        } catch (error) {
-            console.log(error)
-            res.redirect("/error")
+            } catch (error) {
+                console.log(error)
+                res.redirect("/error")
+            }
+
+        } else {
+
+            try {
+
+                const allblogs = await Blog.find().populate('user', 'first_name surname')
+
+                res.render("allblogs", {
+                    blogs: allblogs
+                });
+
+            } catch (error) {
+                console.log(error)
+                res.redirect("/error")
+            }
+
         }
 
     } else {
 
-        res.redirect("/*")
+        res.redirect("/login")
         
     }
 });

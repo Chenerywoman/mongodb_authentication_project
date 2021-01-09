@@ -7,18 +7,13 @@
 </head>
 <body>
     {{>Nav}}
-    <h1>My blogs</h1>
+    <h1>All blogs</h1>
     <div class="individual-blogs-container">
         {{#each blogs}}
         <div class="individual-blog">
             <h4>{{this.title}}</h4>
             <h5>author: {{this.user.first_name}} {{this.user.surname}}</h5>
             {{!-- <a href="/blog/{{this._id}}">{{this.title}}</a>  --}}
-            <button><a href="/updateblog/{{this._id}}">change</a></button>
-
-            <form action="/deleteblog/{{this._id}}" method="POST">
-                <button type="submit">delete</button>
-            </form>
         </div>
         {{/each}}
     </div>
