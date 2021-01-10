@@ -14,17 +14,20 @@
     <h3>Admin:{{admin}}</h3>
 
     <h2>Your Account</h2>
-    <a href="/newblog">Post a blog</a>
-    <a href="/userblogs">All my blogs</a>
-    <button class="create"><a href="/update">Update</a></button>
-    <form action="/delete" method="POST">
-        <button class="delete" type="submit">Delete</button>
-    </form>
+     <div class="buttons-container">
+        <button class="create"><a href="/newblog">Post</a></button>
+        <button class="blogs"><a href="/userblogs">Blogs</a></button>
+        <button class="change"><a href="/update">Update</a></button>
+        <form action="/delete" method="POST">
+            <button class="delete" type="submit">Delete</button>
+        </form>
+    </div>
 
     <h2>User Accounts</h2>
-    <a href="/allusers">Register New User</a>
-    <a href="/allusers">All users</a>
-    <a href="/userblogs">All blogs</a>
-
+    <div class="buttons-container">
+        <button class="create"><a href="/admin-register">Register</a></button>
+        <button class="change"><a href="/allusers">Users</a></button>
+       <button class="blogs"><a href="/userblogs">Blogs</a></button> 
+    </div>
 </body>
 </html>

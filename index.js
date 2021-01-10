@@ -285,7 +285,7 @@ app.get("/admin-profile", auth.isLoggedIn, (req, res) => {
 
         if (admin) {
 
-            res.render("admin-profile", {
+            res.render("admin_profile", {
                 first_name: req.userFound.first_name,
                 surname: req.userFound.surname,
                 email: req.userFound.email,
