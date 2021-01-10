@@ -9,7 +9,7 @@
 <body>
     {{>Nav}}
     <h1>All Users</h1>
-    <p>Only users with admin rights can view all users.</p>
+    <h2>Only users with admin rights can view all users.</h2>
     <div class="users">
         {{#each users}}
             <div class="user">
@@ -34,7 +34,7 @@
                             <button class="change" type="submit">Update</button>
                     </form>
 
-                    <form class="delete" action="/delete/{{this.id}}" method="POST">
+                    <form action="/delete/{{this.id}}" method="POST">
                         <input class="user-to-delete" type="hidden" name="userName" value="{{this.first_name}} {{this.surname}}">
                         <button class="delete" type="submit">Delete</button>
                     </form>
