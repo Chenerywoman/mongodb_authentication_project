@@ -133,20 +133,21 @@ app.get("/admin-register", auth.isLoggedIn, (req, res) => {
 
 app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
 
-    if (auth.isLoggedIn && auth.isLoggedIn.admin) {
-
+    if (req.userFound && req.userFound.admin) {
+        console.log('in admin')
+        
         try {
             const user = await User.findOne({ email: req.body.userEmail })
 
             if (req.body.userPassword != req.body.passwordConfirmation) {
 
-                res.render("admin-register", {
+                res.render("admin_register", {
                     message: "The password entries do not match.  Please re-enter the details and make sure the password and password confirmation fields match."
                 });
 
             } else if (user) {
 
-                res.render("admin-register", {
+                res.render("admin_register", {
                     message: "The email you entered on the database already exists.  Is the user already registered?  If not, please choose another email."
                 });
 
@@ -165,7 +166,7 @@ app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
                 console.log("new user")
                 console.log(newUser)
 
-                res.render("admin-register", {
+                res.render("admin_register", {
                     message: `user ${newUser.first_name} ${newUser.surname} registered`
                 });
             }
