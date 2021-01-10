@@ -16,16 +16,6 @@
                 </a>
             </li>
             <li>
-                <a href="/login">
-                    Login
-                </a>
-            </li>
-            <li>
-                <a href="/register"> 
-                    Register
-                </a>
-            </li>
-            <li>
                 <a href="/profile"> 
                     Profile
                 </a>
@@ -40,6 +30,13 @@
                     All Blogs
                 </a>
             </li>
+            {{#if admin}}
+            <li>
+                <a href="/allusers"> 
+                    Users
+                </a>
+            </li>
+            {{/if}}
               <li>
                 <a href="/logout"> 
                     Logout
