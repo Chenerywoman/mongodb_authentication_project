@@ -46,8 +46,14 @@ app.use(express.urlencoded({extended: false}));
 // not needed as not json data received
 // app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.render("index.hbs")
+app.get('/', auth.isLoggedIn, (req, res) => {
+
+    if(req.userFound.admin){
+    res.render("index", {
+        admin: req.userFound.admin
+    }) } else {
+        res.render("index")
+    }
 });
 
 app.get('/register', auth.isLoggedIn, (req, res) => {
@@ -110,6 +116,7 @@ app.post("/register", auth.isLoggedIn, async (req, res) => {
 });
 
 app.get("/registered", (req, res) => {
+
     res.render("registered")
 });
 
@@ -118,7 +125,9 @@ app.get("/admin-register", auth.isLoggedIn, (req, res) => {
     if (req.userFound) {
 
         if (req.userFound.admin){
-            res.render("admin_register")
+            res.render("admin_register", {
+                admin: req.userFound.admin
+            })
     
         } else {
             res.redirect("/not-admin")
@@ -142,13 +151,15 @@ app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
             if (req.body.userPassword != req.body.passwordConfirmation) {
 
                 res.render("admin_register", {
-                    message: "The password entries do not match.  Please re-enter the details and make sure the password and password confirmation fields match."
+                    message: "The password entries do not match.  Please re-enter the details and make sure the password and password confirmation fields match.",
+                    admin: req.userFound.admin
                 });
 
             } else if (user) {
 
                 res.render("admin_register", {
-                    message: "The email you entered on the database already exists.  Is the user already registered?  If not, please choose another email."
+                    message: "The email you entered on the database already exists.  Is the user already registered?  If not, please choose another email.",
+                    admin: req.userFound.admin
                 });
 
             } else {
@@ -167,7 +178,8 @@ app.post("/admin-register", auth.isLoggedIn, async (req, res) => {
                 console.log(newUser)
 
                 res.render("admin_register", {
-                    message: `user ${newUser.first_name} ${newUser.surname} registered`
+                    message: `user ${newUser.first_name} ${newUser.surname} registered`,
+                    admin: req.userFound.admin
                 });
             }
 
@@ -244,8 +256,16 @@ app.post("/login", async (req, res) => {
 
 });
 
-app.get("/logged-in", (req, res) => {
-    res.render("logged_in");
+app.get("/logged-in", auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound){
+        res.render("logged_in", {
+            admin: req.userFound.admin
+        });
+    } else {
+        res.redirect("error")
+    }
+    
 });
 
 app.get("/profile", auth.isLoggedIn, (req, res) => {
@@ -308,20 +328,38 @@ app.get("/admin-profile", auth.isLoggedIn, (req, res) => {
 app.get("/preupdate", auth.isLoggedIn, (req, res) => {
 
     if (req.userFound) {
+        
+        if (req.userFound.admin){
+            res.render("preupdate", {
+                admin: req.userFound.admin
+            })
+        } else {
+            res.render("preupdate")
+        }
+
+    } else {
+        res.redirect("/login")
+    }
+});
+
+app.post("/preupdate", auth.isLoggedIn, async (req, res) => {
+
+    if (req.userFound) {
 
         try {
+            console.log(req.body.userEmail, req.body.userPassword)
 
-            const user = User.findOne({ password: req.body.userPassword});
-
-            const isMatch = user.email == req.userFound.email ? true : false;
+            const user = await User.findOne({ email: req.body.userEmail});
+            console.log(user)
+            const isMatch = await bcrypt.compare(req.body.userPassword, user.password);
 
             if (isMatch) {
 
-                res.render("/update")
+                res.redirect("/update")
             }
 
         } catch (error) {
-
+            res.redirect("error")
 
         }
     } else {
@@ -340,7 +378,8 @@ app.get("/update", auth.isLoggedIn, (req, res) => {
             first_name: req.userFound.first_name,
             surname: req.userFound.surname,
             email: req.userFound.email, 
-            password: req.userFound.password
+            password: req.userFound.password,
+            admin: req.userFound.admin
 
         })
     } else {
@@ -390,7 +429,8 @@ app.get("/update/:id", auth.isLoggedIn, async (req, res) => {
                 surname: userToUpdate.surname,
                 email: userToUpdate.email, 
                 password: userToUpdate.password,
-                id: userToUpdate._id
+                id: userToUpdate._id,
+                admin: req.userFound.admin
     
             })
 
@@ -422,11 +462,13 @@ app.post("/update/:id", auth.isLoggedIn, async (req, res) => {
                 password: hashedPassword
             });
 
-            res.redirect("/allusers")
+            res.redirect("/allusers", {
+                admin: req.userFound.admin
+            })
 
         } catch (error) {
             console.log(error)
-            res.redirect(error)
+            res.redirect("error")
         }
 
     } else {
@@ -440,9 +482,10 @@ app.post("/delete", auth.isLoggedIn, async (req, res) => {
 
         try {
             const deleted = await User.findByIdAndDelete(req.userFound._id);
+            const deletedBlogs = await Blog.deleteMany({user: req.userFound._id})
             console.log(deleted)
             res.render("deleted", {
-                message: `${deleted.first_name} ${deleted.surname} has been deleted.`
+                message: `${deleted.first_name} ${deleted.surname} has been deleted. Any blogs by ${deleted.first_name} ${deleted.surname} have also been deleted.`
             });
 
         } catch (error) {
@@ -461,16 +504,17 @@ app.get("/deleted", auth.logout, (req, res) => {
 });
 
 app.post("/delete/:id", auth.isLoggedIn, async (req, res) => {
-        console.log("in delete post")
-        console.log(req.params.id)
+   
     if (req.userFound && req.userFound.admin){
 
         try {
 
-            const deleted = await User.findByIdAndDelete(req.params.id)
-            console.log(deleted)
+            const deleted = await User.findByIdAndDelete(req.params.id);
+            const deletedBlogs = await Blog.deleteMany({user: req.params.id})
+           
             res.render("deleted", {
-                message: `${deleted.first_name} ${deleted.surname} has been deleted from the database`
+                message: `${deleted.first_name} ${deleted.surname} has been deleted from the database.  Any blogs by ${deleted.first_name} ${deleted.surname} have also been deleted.`,
+                admin: req.userFound.admin
             });
 
         } catch (error) {
@@ -495,7 +539,8 @@ app.get("/allusers", auth.isLoggedIn, async (req, res) => {
                 const users = await User.find()
 
                 res.render("allusers", {
-                    users: users
+                    users: users,
+                    admin: req.userFound.admin
                 })
 
             } catch (error) {
@@ -516,7 +561,9 @@ app.get("/newblog", auth.isLoggedIn, (req, res) => {
 
     if (req.userFound) {
 
-        res.render("newblog");
+        res.render("newblog", {
+            admin: req.userFound.admin
+        });
 
     } else {
 
@@ -546,24 +593,26 @@ app.post("/newblog", auth.isLoggedIn, async (req, res) => {
 
 // blog by admin here
 
-app.get("/newblog/:id", auth.isLoggedIn, (req, res) => {
+app.get("/newblog/:id", auth.isLoggedIn, async (req, res) => {
 
     if (req.userFound && req.userFound.admin) {
 
         try {
-
-            const user = User.findOne({_id: req.params.id})
-
+            
+            const user = await User.findOne({_id:req.params.id})
+            // console.log(user)
             res.render("admin-newblog", {
                 userId: user._id,
                 first_name: user.first_name,
-                surname: user.surname
+                surname: user.surname,
+                admin: req.userFound.admin
 
             });
 
         } catch (error) {
+            console.log("error")
             console.log(error)
-            res.redirect(error)
+            res.redirect("error")
         }   
 
     } else {
@@ -578,7 +627,7 @@ app.post("/newblog/:id", auth.isLoggedIn, async (req, res) => {
         const newblog = await Blog.create({
             title: req.body.title,
             body: req.body.blog,
-            user: req.params.id
+            user: req.params.id,
         });
 
         res.redirect("/allblogs")
@@ -600,7 +649,8 @@ app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
         console.log('my blogs')
         console.log(myblogs)
         res.render("userblogs", {
-            blogs: myblogs
+            blogs: myblogs,
+            admin: req.userFound.admin
         });
 
     } else {
@@ -617,7 +667,8 @@ app.get("/userblogs/:id", auth.isLoggedIn, async (req, res) => {
         console.log('blogs')
         console.log(blogs)
         res.render("admin-userblogs", {
-            blogs: blogs
+            blogs: blogs,
+            admin: req.userFound.admin
         });
 
     } else {
@@ -635,9 +686,10 @@ app.get("/allblogs", auth.isLoggedIn, async (req, res) => {
             try {
 
                 const allblogs = await Blog.find().populate('user', 'first_name surname')
-
+                console.log(req.userFound.admin)
                 res.render("userblogs", {
-                    blogs: allblogs
+                    blogs: allblogs, 
+                    admin: req.userFound.admin
                 });
 
             } catch (error) {
@@ -678,7 +730,8 @@ app.get("/updateblog/:id", auth.isLoggedIn, async (req, res) => {
         res.render("updateblog", {
             id: req.params.id,
             title: blogToUpdate.title,
-            blog: blogToUpdate.body
+            blog: blogToUpdate.body, 
+            admin: req.userFound.admin
         })
 
     } else {
@@ -728,7 +781,8 @@ app.get("/admin-updateblog/:id", auth.isLoggedIn, async (req, res) => {
                 blog: blogToUpdate.body,
                 first_name: blogToUpdate.user.first_name,
                 surname: blogToUpdate.user.surname, 
-                userId: blogToUpdate.user._id
+                userId: blogToUpdate.user._id,
+                admin: req.userFound.admin
 
             });
 
@@ -784,12 +838,15 @@ app.post("/deleteblog/:id", auth.isLoggedIn, async (req, res) => {
             console.log(deletedBlog)
 
             res.render("deleted", {
-                message: `blog ${deletedBlog.title} was deleted`
+                message: `blog ${deletedBlog.title} was deleted`,
+                admin: req.userFound.admin
             })
 
         } catch (error) {
             console.log(error)
-            res.redirect("error");
+            res.redirect("error", {
+                admin: req.userFound.admin
+            });
         }
 
     } else {
@@ -807,12 +864,26 @@ app.get("/logout", auth.logout, (req, res) => {
     res.render("logout");
 });
 
-app.get("/error", (req, res)=> {
-    res.render("error")
+app.get("/error", auth.isLoggedIn, (req, res)=> {
+    if (req.userFound){
+        res.render("error", {
+            admin: req.userFound.admin
+        });
+    } else {
+        res.render("error")
+    }
 });
 
-app.get('/*', (req, res) => {
-    res.render("404");
+app.get('/*', auth.isLoggedIn, (req, res) => {
+
+    if (req.userFound){
+        res.render("404", {
+            admin: req.userFound.admin
+        });
+    } else {
+        res.render("404")
+    }
+    
 });
 
 app.listen(5000, () => {
