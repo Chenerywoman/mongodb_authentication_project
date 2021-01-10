@@ -28,20 +28,22 @@
                     </tr>
                 </table>
 
-                <form class="update" action="/update/{{this.id}}" method="GET">
-                        <button class="change" type="submit">Update</button>
-                </form>
+                <div class="buttons-container">
 
-                <form class="delete" action="/delete/{{this.id}}" method="POST">
-                    <input class="user-to-delete" type="hidden" name="userName" value="{{this.first_name}} {{this.surname}}">
-                    <button class="delete" type="submit">Delete</button>
-                </form>
+                    <form class="update" action="/update/{{this.id}}" method="GET">
+                            <button class="change" type="submit">Update</button>
+                    </form>
 
+                    <form class="delete" action="/delete/{{this.id}}" method="POST">
+                        <input class="user-to-delete" type="hidden" name="userName" value="{{this.first_name}} {{this.surname}}">
+                        <button class="delete" type="submit">Delete</button>
+                    </form>
 
-                <form class="newblog" action="/newblog/{{this.id}}" method="GET">
-                    <button class="create" type="submit">Blog</button>
-                </form>
+                    <form class="newblog" action="/newblog/{{this.id}}" method="GET">
+                        <button class="create" type="submit">Blog</button>
+                    </form>
 
+                </div>
 
             </div>
         {{/each}}
