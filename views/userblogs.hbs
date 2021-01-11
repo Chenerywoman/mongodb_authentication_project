@@ -12,9 +12,8 @@
     <div class="individual-blogs-container">
         {{#each blogs}}
         <div class="individual-blog">
-            <h4>{{this.title}}</h4>
+            <h4><a class="blog-link" href="/blog/{{this._id}}">{{this.title}} </a> </h4>
             <h5>author: {{this.user.first_name}} {{this.user.surname}}</h5>
-            <a href="/blog/{{this._id}}">Go to Blog</a> 
             <div class="buttons-container">
                 <button class="change"><a href="/updateblog/{{this._id}}">change</a></button>
                 <form action="/deleteblog/{{this._id}}" method="POST">
