@@ -539,7 +539,7 @@ app.get("/allusers", auth.isLoggedIn, async (req, res) => {
 
                 const users = await User.find()
 
-                res.render("allusers", {
+                res.render("admin_allusers", {
                     users: users,
                     admin: req.userFound.admin
                 })
@@ -602,7 +602,7 @@ app.get("/newblog/:id", auth.isLoggedIn, async (req, res) => {
             
             const user = await User.findOne({_id:req.params.id})
             // console.log(user)
-            res.render("admin-newblog", {
+            res.render("admin_newblog", {
                 userId: user._id,
                 first_name: user.first_name,
                 surname: user.surname,
@@ -660,15 +660,17 @@ app.get("/userblogs", auth.isLoggedIn, async (req, res) => {
     }
 });
 
-app.get("/userblogs/:id", auth.isLoggedIn, async (req, res) => {
+app.get("/admin-userblogs/:id", auth.isLoggedIn, async (req, res) => {
 
     if (req.userFound && req.userFound.admin) {
 
         const blogs = await Blog.find({user:req.params.id}).populate('user', 'first_name surname');
         console.log('blogs')
         console.log(blogs)
-        res.render("admin-userblogs", {
+        res.render("admin_userblogs", {
             blogs: blogs,
+            first_name: blogs[0].user.first_name,
+            surname: blogs[0].user.surname,
             admin: req.userFound.admin
         });
 
@@ -806,8 +808,7 @@ app.post("/admin-updateblog/:id", auth.isLoggedIn, async (req, res) => {
     if (req.userFound && req.userFound.admin) {
 
         try {
-            console.log('req.params')
-            console.log(req.params.id)
+          
             const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, {
                 title: req.body.title,
                 body: req.body.blog

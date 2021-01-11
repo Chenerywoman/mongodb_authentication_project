@@ -9,14 +9,13 @@
 <body>
     {{>Nav}}
    <h1>Individual User Blogs: Admin Only</h1>
-    <h2>{{this.user.first_name}} {{this.user.surname}}'s blogs</h2>
+    <h2>{{first_name}} {{surname}}'s blogs</h2>
     <div class="individual-blogs-container">
         {{#each blogs}}
         <div class="individual-blog">
             <h4>{{this.title}}</h4>
-            {{!-- <a href="/blog/{{this._id}}">{{this.title}}</a>  --}}
+            <a href="/blog/{{this._id}}">{{this.title}}</a>  
             <button class="create"><a href="/updateblog/{{this._id}}">change</a></button>
-
             <form action="/deleteblog/{{this._id}}" method="POST">
                 <button class="delete" type="submit">delete</button>
             </form>
