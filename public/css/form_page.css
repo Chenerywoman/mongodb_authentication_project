@@ -29,7 +29,7 @@ h1 {
     display: table-cell;
 }
 
-.new-blog textarea, .generate-blog input, .update-blog textarea, .update-blog input, .update input, .register input, .pre-update input, .login input {
+.new-blog textarea, .new-blog input, .generate-blog input, .update-blog textarea, .update-blog input, .update input, .register input, .pre-update input, .login input {
     width: 300px;
     margin-top: 1.5em;
 }
@@ -39,7 +39,7 @@ h1 {
 }
 
 .create {
-    margin: 1em 0;
+    margin: 1em auto;
     background-color: #255C99;
     border:1px solid #255C99;
     padding: 0.25em;
@@ -48,3 +48,37 @@ h1 {
     color: #7EA3CC;
 }
 
+/****IPad - landscape ***************/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+
+   
+
+}
+
+/****IPad - portrait  ***************/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+
+   
+
+}
+
+/**** Small tablet- landscape ***************/
+@media only screen and (min-device-width: 540px) and (max-device-width: 720px) and (orientation: landscape) {
+
+   
+
+}
+
+/**** Small tablet- portrait ***************/
+@media only screen and (min-device-width: 540px) and (max-device-width: 720px) and (orientation: portrait) {
+
+   
+
+}
+
+
+@media only screen and (max-width: 500px) {
+
+  
+
+}
