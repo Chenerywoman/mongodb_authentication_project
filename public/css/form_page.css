@@ -38,6 +38,11 @@ h1 {
     padding-left: 1em;
 }
 
+.register input {
+    width: 250px;
+    margin-top: 0.5em;
+}
+
 .create {
     margin: 1em auto;
     background-color: #255C99;
