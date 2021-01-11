@@ -9,6 +9,11 @@ h1 {
     margin-top: 2em;
     top: 0;
     width: 100%;
+    position: fixed;
+}
+
+h2 {
+    margin-top: 4em;
 }
 
 .user {
@@ -103,3 +108,82 @@ h1 {
     color:#7EA3CC;
 }
 
+/****IPad - landscape ***************/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+
+    h2 {
+        margin-top: 5em;
+        font-size: 1.5rem;
+        
+    }
+
+}
+
+/****IPad - portrait  ***************/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+
+    h2 {
+        margin-top: 5em;
+        font-size: 1.5rem;
+        
+    }
+    
+    .user{
+        width: 60%;
+    }
+
+}
+
+/**** Small tablet- landscape ***************/
+@media only screen and (min-device-width: 540px) and (max-device-width: 720px) and (orientation: landscape) {
+
+    h2 {
+        margin-top: 5em;
+        font-size: 1.5rem;
+        
+    }
+
+}
+
+/**** Small tablet- portrait ***************/
+@media only screen and (min-device-width: 540px) and (max-device-width: 720px) and (orientation: portrait) {
+
+    h2 {
+        margin-top: 5em;
+        font-size: 1.5rem;
+        
+    }
+
+    .user{
+        width: 60%;
+    }
+
+}
+
+
+@media only screen and (max-width: 500px) {
+
+    h1 {
+        margin-top: 3em;
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        margin-top: 6em;
+        top: 0;
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .user{
+        width: 80%;
+    }
+
+
+    .buttons-container {
+        width: 90%;
+        font-size: 0.75rem;
+        
+    }
+
+}
