@@ -7,8 +7,8 @@ exports.isLoggedIn = async (req, res, next) => {
     if (req.cookies.jwt) {
         console.log('token decoded');
 
-        const decoded = await jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-
+        const decoded = await jwt.verify(req.cookies.jwt, process.env.JWT_SECRET); 
+        
         req.userFound = await User.findById(decoded.id)
     }
 
