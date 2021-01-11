@@ -858,6 +858,38 @@ app.post("/deleteblog/:id", auth.isLoggedIn, async (req, res) => {
 
 });
 
+app.get("/blog/:id", auth.isLoggedIn, async (req, res) => {
+
+    try {
+     
+        const blog = await Blog.findOne({_id: req.params.id}).populate('user first_name surname')
+        console.log(blog)
+
+        const blogDate = helpers.displayTime(blog.createdAt);
+        
+        if (req.userFound) {
+
+            res.render("blog", {
+                title: blog.title,
+                blog: blog.body,
+                firstName: blog.user.first_name,
+                surname: blog.user.surname,
+                date: blogDate,
+                admin: req.userFound.admin
+            });
+
+        } else {
+
+            res.redirect("/not-logged-in")
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.redirect("/error");
+    }
+
+});
+
 app.get('/not-admin', (req, res) => {
     res.render("not_admin");
 });

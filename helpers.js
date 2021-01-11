@@ -16,3 +16,10 @@ exports.createCookie = (userId, response) => {
 
     response.cookie('jwt', token, cookieOptions)
 }
+
+exports.displayTime = (time) => {
+    const timeString = time.toString();
+    const regex = /\w{3}\s\w{3}\s\d{2}\s\d{4}/
+    const returned = timeString.match(regex)
+    return returned;
+}
