@@ -48,7 +48,8 @@ app.use(express.urlencoded({extended: false}));
 
 app.get('/', auth.isLoggedIn, (req, res) => {
 
-    if(req.userFound.admin){
+    if(req.userFound && req.userFound.admin){
+
     res.render("index", {
         admin: req.userFound.admin
     }) } else {
@@ -481,8 +482,8 @@ app.post("/delete", auth.isLoggedIn, async (req, res) => {
     if (req.userFound) {
 
         try {
-            const deleted = await User.findByIdAndDelete(req.userFound._id);
             const deletedBlogs = await Blog.deleteMany({user: req.userFound._id})
+            const deleted = await User.findByIdAndDelete(req.userFound._id);
             console.log(deleted)
             res.render("deleted", {
                 message: `${deleted.first_name} ${deleted.surname} has been deleted. Any blogs by ${deleted.first_name} ${deleted.surname} have also been deleted.`
@@ -509,8 +510,8 @@ app.post("/delete/:id", auth.isLoggedIn, async (req, res) => {
 
         try {
 
+            const deletedBlogs = await Blog.deleteMany({user: req.params.id});
             const deleted = await User.findByIdAndDelete(req.params.id);
-            const deletedBlogs = await Blog.deleteMany({user: req.params.id})
            
             res.render("deleted", {
                 message: `${deleted.first_name} ${deleted.surname} has been deleted from the database.  Any blogs by ${deleted.first_name} ${deleted.surname} have also been deleted.`,
@@ -686,7 +687,7 @@ app.get("/allblogs", auth.isLoggedIn, async (req, res) => {
             try {
 
                 const allblogs = await Blog.find().populate('user', 'first_name surname')
-                console.log(req.userFound.admin)
+                console.log(allblogs)
                 res.render("userblogs", {
                     blogs: allblogs, 
                     admin: req.userFound.admin
@@ -725,11 +726,12 @@ app.get("/updateblog/:id", auth.isLoggedIn, async (req, res) => {
 
     if (req.userFound){
 
-        const blogToUpdate = await Blog.findById({_id: req.params.id})
-
+        const blogToUpdate = await Blog.findById(req.params.id)
+        console.log(blogToUpdate)
         res.render("updateblog", {
-            id: req.params.id,
-            title: blogToUpdate.title,
+            id: blogToUpdate._id,
+            // title: blogToUpdate.title,
+            title: "Two words here",
             blog: blogToUpdate.body, 
             admin: req.userFound.admin
         })
