@@ -13,12 +13,13 @@
     <div class="individual-blogs-container">
         {{#each blogs}}
         <div class="individual-blog">
-            <h4>{{this.title}}</h4>
-            <a href="/blog/{{this._id}}">{{this.title}}</a>  
-            <button class="create"><a href="/updateblog/{{this._id}}">change</a></button>
-            <form action="/deleteblog/{{this._id}}" method="POST">
-                <button class="delete" type="submit">delete</button>
-            </form>
+            <h4><a class="blog-link" href="/blog/{{this._id}}">{{this.title}}</a> </h4>
+            <div class="buttons-container">
+                <button class="create"><a href="/updateblog/{{this._id}}">change</a></button>
+                <form action="/deleteblog/{{this._id}}" method="POST">
+                    <button class="delete" type="submit">delete</button>
+                </form>
+            </div>
         </div>
         {{/each}}
     </div>
