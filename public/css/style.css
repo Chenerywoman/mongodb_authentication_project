@@ -24,7 +24,7 @@ h1 {
     background-color: #255C99;
     border:1px solid #255C99;
     padding: 0.25em;
-    font-size: 1em;
+    /* font-size: 1em; */
     border-radius: 15%;
     color: #7EA3CC;
 }
@@ -34,7 +34,7 @@ h1 {
     background-color: #566246;
     border:1px solid #566246;
     padding: 0.25em;
-    font-size: 1em;
+    /* font-size: 1em; */
     border-radius: 15%;
     color: #FFBA49;
 }
@@ -52,3 +52,54 @@ h1 {
     color: #7EA3CC;
     font-size: x-large;
 }
+
+@media only screen and (max-width: 500px) {
+
+  h1 {
+      margin-top: 3rem;
+  }
+
+  .buttons-container {
+   
+    width: 40vw;
+   
+}
+
+.create a {
+    font-size: large;
+}
+
+.login a {
+
+    font-size: large;
+}
+
+}
+
+@media only screen and (max-width: 350px) {
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2{
+        font-size: 1rem;
+    }
+  
+    .buttons-container {
+     
+      width: 40vw;
+     
+  }
+  
+  .create a {
+      font-size: medium;
+  }
+  
+  .login a {
+  
+      font-size: medium;
+  }
+  
+  }
+  
