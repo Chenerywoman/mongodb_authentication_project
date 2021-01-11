@@ -35,10 +35,57 @@ nav ul li a:visited{
     color: #FFBA49;
 }
 
-@media only screen and (max-width: 350px) {
+/****IPad - landscape ***************/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+
+   
+
+}
+
+/****IPad - portrait  ***************/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+
+   
+
+}
+
+/**** Small tablet- landscape ***************/
+@media only screen and (min-device-width: 540px) and (max-device-width: 720px) and (orientation: landscape) {
+
+   
+
+}
+
+/**** Small tablet- portrait ***************/
+@media only screen and (min-device-width: 540px) and (max-device-width: 720px) and (orientation: portrait) {
+
+   
+
+}
+
+
+@media only screen and (max-width: 500px) {
+
+    nav ul {
+        font-size: 0.75rem;
+    }
 
     nav ul li {
-        padding-left: 0.5em;
+        padding-left: 0.75em;
+    }
+
+
+}
+
+
+
+@media only screen and (max-width: 350px) {
+
+    nav ul {
+        font-size: 0.6rem;
+    }
+    nav ul li {
+        padding-left: 0.25em;
     }
 
     nav ul li a{
